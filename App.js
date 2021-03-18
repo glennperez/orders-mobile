@@ -4,6 +4,7 @@ import MealsScreen from "./screens/Meals";
 import LoginScreen from "./screens/Login";
 import RegisterScreen from "./screens/Register";
 import Modal from "./screens/Modal";
+import AuthLoading from "./screens/AuthLoading";
 
 const OnBoardingNavigator = createStackNavigator({
   Login: LoginScreen,
@@ -27,10 +28,11 @@ const RootStack = createStackNavigator({
 })
 
 const BaseStack = createSwitchNavigator({
+  AuthLoading,
   OnBoardig: OnBoardingNavigator,
   Root: RootStack
 }, {
-  initialRouteName: 'OnBoardig'
+  initialRouteName: 'AuthLoading'
 })
 
 export default createAppContainer(BaseStack)

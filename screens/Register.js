@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TextInput, View, StyleSheet, Button } from "react-native";
+import { Text, TextInput, View, StyleSheet, Button, Alert } from "react-native";
 import useForm from "../hooks/useForm";
 
 export default ({ navigation }) => {
@@ -8,13 +8,30 @@ export default ({ navigation }) => {
         password: ''
     }
     const onSubmit = values => {
-        console.log(values)
+        fetch('https://orders-gprosario.vercel.app/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values)
+        })
+        .then(x => x.text())
+        .then(x => {
+            if (x === 'Usuario creado con éxito') {
+                return Alert.alert('Exito', x, 
+                [
+                    { text: 'Ir al inicio', onPress: () => navigation.navigate('Login') }
+                ])
+            }
+            Alert.alert('Error', x)
+        })
     }
     const { subscribe, inputs, handleSubmit } = useForm(initialState, onSubmit)
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Registro</Text>
             <TextInput 
+                autoCapitalize='none'
                 value={inputs.email}
                 onChangeText={subscribe('email')}
                 style={styles.input} 
